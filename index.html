@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MySQL</title>
+    <link rel="stylesheet" href="styles/style.css">
+<body>
+
+    <div class="card">
+        <h3>Me apoie me seguindo no GitHub!</h3>
+        <a href="https://github.com/alvaroduda" target="_blank">Clique aqui!</a>
+    </div>
+
+    <h1>Explicação de Comandos MySQL</h1>
+
+
+
+    <div class="command-box">
+        <h2>Criação de um Banco de Dado</h2>
+        <div class="code-box">
+            CREATE DATABASE nome_do_bancodedados
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation1')">Explicar</button>
+        <div id="explanation1" class="explanation">
+            Esse comando é usado para criar um banco de dados.
+        </div>
+    </div>
+
+    <div class="command-box">
+        <h2>Criação de uma Tabela no Banco de Dados:</h2>
+        <div class="code-box">
+            CREATE TABLE pessoas (
+            nome VARCHAR(30),
+            idade TINYINT(3),
+            sexo CHAR(1),
+            peso FLOAT,
+            altura FLOAT,
+            nacionalidade VARCHAR(20)
+            ) default charset = utf8mb3
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation2')">Explicar</button>
+        <div id="explanation2" class="explanation">
+            Criando uma tabela chamada pessoas, passando as colunas que eu quero ter nela e passando o utf8 como padrão default da tabela, o utf8 define como o se armazena caracteres de texto, e é importante para garantir a compatibilidade e o uso adequado de caracteres em sua aplicação (não é obrigatorio definir no final o utf8 para criar uma tabela).
+        </div>
+    </div>
+    
+    <div class="command-box">
+        <h2>Apagar um Banco de Dados:</h2>
+        <div class="code-box">
+            DROP DATABASE cadastro
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation3')">Explicar</button>
+        <div id="explanation3" class="explanation">
+            Dropo/jogo fora um banco de dados.
+        </div>
+    </div>
+    
+    <div class="command-box">
+        <h2>Criação de Banco de Dados com Configuração de Caracteres:</h2>
+        <div class="code-box">
+            CREATE DATABASE cadastro
+            DEFAULT CHARACTER SET utf8
+            DEFAULT COLLATE utf8_general_ci
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation4')">Explicar</button>
+        <div id="explanation4" class="explanation">
+            Esse comando define o conjunto de caracteres para `utf8`, permitindo que o banco de dados represente praticamente todos os idiomas do mundo, incluindo acentos, símbolos e caracteres especiais. O `utf8_general_ci` significa que a comparação de strings não será sensível a maiúsculas/minúsculas (case-insensitive) e será feita de forma geral, sem se importar com particularidades de cada idioma.
+        </div>
+    </div>
+    
+    <div class="command-box">
+        <h2>Comando para Criar a Tabela `pessoas` com uma chave de identificação (Id):</h2>
+        <div class="code-box">
+            CREATE TABLE pessoas (
+            id INT NOT NULL AUTO_INCREMENT,
+            nome VARCHAR(30) NOT NULL,
+            nascimento DATE,
+            sexo ENUM('M', 'F'),
+            peso DECIMAL(5,2), -- uso o tipo decimal para definir o peso com precisão de no máximo 5 digitos e 2 digitos após a virgula.
+            altura DECIMAL(3,2), -- aqui eu digo que serão no máximo 3 digitos no total e que após a virgula ira ter dois digitos.
+            nacionalidade VARCHAR(20) DEFAULT 'Brasil', -- caso não seja informada a nacionalidade por padrão será do Brasil.
+            PRIMARY KEY (id)
+            )
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation5')">Explicar</button>
+        <div id="explanation5" class="explanation">
+            Criando uma tabela chamada pessoas, passando as colunas que eu quero ter nela e chave de identificação (não defini o utf8 já que não é regra para criar uma tabela).
+           <p></p>
+           <p></p> - A coluna `id` é do tipo inteiro, não pode ter um valor null/não ter valor definido (NOT NULL) e será gerada automaticamente (AUTO_INCREMENT), garantindo que cada valor seja único.
+           <p></p> - A coluna `nome` é do tipo `VARCHAR(30)` e não pode ser nula.
+           <p></p> - A coluna `nascimento` é do tipo `DATE`.
+           <p></p> - A coluna `sexo` usa o tipo `ENUM`, limitando os valores a 'M' e 'F'.
+           <p></p> - As colunas `peso` e `altura` são do tipo `DECIMAL` para garantir precisão em até dois dígitos após a vírgula, nesse formato: (quantidade máximma de digitos, digitos após a vírgula), ou seja se eu definir (5,2) isso significa que eu posso digitar no máx 5 digitos mas 2 terá que ser após a virgula, ex: 110,40.
+           <p></p> - A coluna `nacionalidade` tem o valor padrão 'Brasil', caso não seja informada(DEFAULT 'Brasil').
+           <p></p> - A chave primária (`PRIMARY KEY`) é definida para a coluna `id`.
+        </div>
+    </div>
+    
+    <div class="command-box">
+        <h2>Inserir um registro na tabela:</h2>
+        <div class="code-box">
+            INSERT INTO pessoas (nome, nascimento, sexo, peso, altura) VALUES ('Fulano', '2003-11-13', 'M', 85.50, 1.80);
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation6')">Explicar</button>
+        <div id="explanation6" class="explanation">
+            Os valores passados no parametro será definido ao parametro das colunas da tabela, eu não informei o id porque ele é a primeira coluna da tabela e será gerado automaticamentee, e eu não informei a nascionalidade ela é a última coluna da tabela e por padrão (default) será Brasil caso eu não informe.
+            Obs: O `id` será gerado automaticamente e a `nacionalidade` será 'Brasil' por padrão. 
+        </div>
+    </div>
+
+    <div class="command-box">
+        <h2>Inserir vários registros de uma só vez:</h2>
+        <div class="code-box">
+            INSERT INTO pessoas (nome, nascimento, sexo, peso, altura) VALUES ('Fulaninha', '1990-09-21', 'F', 55.00, 1.60),
+            ('Fulanão', '1978-04-27', 'M', 93.00, 1.83), ('Fulanoide', '1992-06-27', 'F', 55.00, 1.55);
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation7')">Explicar</button>
+        <div id="explanation7" class="explanation">
+            Os valores passados nos parametros serão definidoa ao parametro das colunas da tabela, eu não informei o id porque ele é a primeira coluna da tabela e será gerado automaticamente, e a nascionalidade ela é a última coluna da tabela e por padrão (default) será Brasil caso eu não informe.
+            Obs: O `id` será gerado automaticamente e a `nacionalidade` será 'Brasil' por padrão.
+        </div>
+    </div>
+
+    <div class="command-box">
+        <h2>Exibição dos Registros na Tabela:</h2>
+        <div class="code-box">
+            SELECT * FROM pessoas;
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation8')">Explicar</button>
+        <div id="explanation8" class="explanation">
+            Vai mostrar todos os registros feitos nas colunas da tabela pessoas, o todos é representado pelo '*'
+        </div>
+    </div>
+
+
+
+
+
+    <div class="contact-box">
+        <h3>Entre em contato</h3>
+        <p>Se você tiver dúvidas ou sugestões, pode entrar em contato:</p>
+        <a href="alvarodudadahoradh@gmail.com">alvarodudadahoradh@gmail.com</a>
+    </div>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
