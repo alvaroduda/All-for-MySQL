@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MySQL</title>
+    <title>Comandos MySQL</title>
     <link rel="stylesheet" href="styles/style.css">
+    <link rel="icon" href="icon/pngimg.com - mysql_PNG19.png" type="image/x-icon">
 <body>
 
     <div class="card">
-        <h3>Me apoie me seguindo no GitHub!</h3>
-        <a href="https://github.com/alvaroduda" target="_blank">Clique aqui!</a>
+        <h3>Fale comigo no Linkedin</h3>
+        <a href="https://www.linkedin.com/in/%C3%A1lvaro-duda-27b847332/" target="_blank">Clique aqui!</a>
     </div>
 
-    <h1>Explicação de Comandos MySQL</h1>
+    <h1>Tudo de MySQL</h1>
 
 
 
@@ -133,14 +134,732 @@
         </div>
     </div>
 
+    <div class="command-box">
+        <h2>Adicionar Coluna `profissao` à Tabela `pessoas`:</h2>
+        <div class="code-box">
+            ALTER TABLE pessoas ADD COLUMN profissao VARCHAR(10)
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation9')">Explicar</button>
+        <div id="explanation9" class="explanation">
+            Alterando a tabela pessoas e adicionando a coluna de profissao, mesmo após a criação da tabela.
+        </div>
+    </div>
+    
+    <div class="command-box">
+        <h2>Apagar a Coluna `profissao` da Tabela:</h2>
+        <div class="code-box">
+            ALTER TABLE pessoas DROP COLUMN profissao
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation11')">Explicar</button>
+        <div id="explanation11" class="explanation">
+            Altero a tabela pessoas jogando fora/dropando/apagando a coluna 'profissao'
+        </div>
+    </div>
+    
+    <div class="command-box">
+        <h2>Adicionar a Coluna `profissao` Após a Coluna `nome`:</h2>
+        <div class="code-box">
+            ALTER TABLE pessoas ADD COLUMN profissao VARCHAR(10) AFTER nome
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation10')">Explicar</button>
+        <div id="explanation10" class="explanation">
+            Altero a tabela pessoas e adiciono a coluna 'profissao' e digo que quero após a coluna 'nome' (AFTER nome)
+        </div>
+    </div>
+    
+    <div class="command-box">
+        <h2>Adicionar uma Coluna `codigo` na Primeira Posição da Tabela:</h2>
+        <div class="code-box">
+            ALTER TABLE pessoas ADD codigo INT FIRST
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation11')">Explicar</button>
+        <div id="explanation11" class="explanation">
+            Altero a tabela pessoas e adiciono a coluna codigo na primeira posição das colunas da tabela (IN FIRST)
+        </div>
+    </div>
+    
+    <div class="command-box">
+        <h2>Modificar a Coluna `profissao` para Ter 20 Caracteres (Em vez de 10):</h2>
+        <div class="code-box">
+            ALTER TABLE pessoas MODIFY COLUMN profissao VARCHAR(20)
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation12')">Explicar</button>
+        <div id="explanation12" class="explanation">
+            Altero a tabela pessoas e modifico a coluna profissao mudando a especificação do seu tipo (isso reseta qualquer registro já feito nessa coluna).
+            Obs: eu também poderia mudar o tipo, é como se recriasse a variável.
+        </div>
+    </div>
+    
+    <div class="command-box">
+        <h2>Definir `profissao` como Não Nula e com Valor Padrão 'Desempregado':</h2>
+        <div class="code-box">
+            ALTER TABLE pessoas MODIFY COLUMN profissao VARCHAR(20) NOT NULL DEFAULT 'Desempregado'
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation13')">Explicar</button>
+        <div id="explanation13" class="explanation">
+            Alterando a tabela pessoas e modificando a coluna de profissao, mudando as suas especificações do seu tipo.
+            - NOT NULL diz que não pode ser nulo, ou seja cada pessoa tem que ter um valor nessa coluna, caso não tenha será setado por padrão (DEFAULT) 'Desempregado'<div class=""></div>
+        </div>
+    </div>
+    
+    <div class="command-box">
+        <h2>Renomear a Coluna `profissao` para `prof`:</h2>
+        <div class="code-box">
+            ALTER TABLE pessoas CHANGE COLUMN profissao prof VARCHAR(20)
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation14')">Explicar</button>
+        <div id="explanation14" class="explanation">
+            Alterando a tabela pessoas e escolhendo que a coluna 'profissao' se torne 'prof' e sejá um VARCHAR(20), ele recria a variável, logo perde todos os registros feitos anteriormente.
+        </div>
+    </div>
+    
+    <div class="command-box">
+        <h2>Renomear a Tabela `pessoas` para `infos`:</h2>
+        <div class="code-box">
+            ALTER TABLE pessoas RENAME TO infos
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation15')">Explicar</button>
+        <div id="explanation15" class="explanation">
+            Altero a tabela pessoas e a renomeio para infos
+        </div>
+    </div>
+    
+    <div class="command-box">
+        <h2>Criar a Tabela `cursos` se Não Existir</h2>
+        <div class="code-box">
+            CREATE TABLE IF NOT EXISTS cursos (nome VARCHAR(30) NOT NULL UNIQUE,descricao TEXT,carga INT UNSIGNED,totalaulas INT,ano YEAR DEFAULT '2024') DEFAULT CHARACTER SET utf8
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation16')">Explicar</button>
+        <div id="explanation16" class="explanation">
+            Crio a tabela caso não exista nenhuma outra tabela nesse banco de dados com o nome de cursos, caso exista a tabela não será criada.
+            - 'UNIQUE' nas especificações da coluna 'nome' significa que só podera ter um registro com um nome, ou seja não podera ter mais de um registro com o mesmo nome.
+            - 'UNSIGNED' nas especificações da coluna 'carga' significa que só podera ter valores positivos, ou seja não se pode ter cargas com valores númericos negativos.
+            - 'DEFAULT CHARACTER SET utf8' após os parametros especificando as colunas que a tabela tera, é o mesmo que 'default charset = utf8mb3', só muda a forma de escrever.
+            - A coluna 'ano' é do tipo 'YEAR' e tem o valor padrão de 2024.
+        </div>
+    </div>
+    
+    <div class="command-box">
+        <h2>Adicionar Chave Primária (Se Esquecida):</h2>
+        <div class="code-box">
+            ALTER TABLE cursos ADD COLUMN idcurso INT FIRST, ADD PRIMARY KEY (idcurso)
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation17')">Explicar</button>
+        <div id="explanation17" class="explanation">
+            Altero a tabela cursos adiciono uma coluna `idcurso` do tipo INT na primeira posição da tabela como chave primária.
+        </div>
+    </div>
+        
+    <div class="command-box">
+        <h2>Criar a Tabela 'exemplo':</h2>
+        <div class="code-box">
+            CREATE TABLE exemplo (nome VARCHAR(10),idade INT)
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation18')">Explicar</button>
+        <div id="explanation18" class="explanation">
+            Criando a tabela 'exemplo'.
+        </div>
+    </div>
+        
+    <div class="command-box">
+        <h2>Apagar a Tabela `exemplo` (Se Existir):</h2>
+        <div class="code-box">
+            DROP TABLE IF EXISTS exemplo
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation19')">Explicar</button>
+        <div id="explanation19" class="explanation">
+            Apagando/dropando a tabela 'exemplo' caso ela exista.
+        </div>
+    </div>
+        
+    <div class="command-box">
+        <h2>Atualizar Dados de uma Linha:</h2>
+        <div class="code-box">
+            UPDATE nome_da_tabela SET nome_da_coluna = 'novo_valor' WHERE id = '1'
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation20')">Explicar</button>
+        <div id="explanation20" class="explanation">
+            Atualizando uma o valor/registro de uma coluna de uma tabela com um novo valor caso o id for 1.
+            - Verifica quem é o registro de id 1 e altera uma coluna desse mesmo registro, exemplo:
+                Alterando a definição do um nome de uma pessoa que tem o Id 3:
+                    UPDATE pessoas set nome = 'Fulaninho' where id = '3'
+        </div>
+    </div>
+        
+    <div class="command-box">
+        <h2>Deletar Dados de uma Linha:</h2>
+        <div class="code-box">
+            DELETE FROM nome_da_tabela WHERE id = '1'
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation21')">Explicar</button>
+        <div id="explanation21" class="explanation">
+            Deletando dados de uma tabela se uma coluna chamada 'id' de um registro for equivalente a '1'
+        </div>
+    </div>
+        
+    <div class="command-box">
+        <h2>Apagar Todos os Registros de uma Tabela (Sem Deletar a Tabela):</h2>
+        <div class="code-box">
+            TRUNCATE TABLE nome_da_tabela
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation22')">Explicar</button>
+        <div id="explanation22" class="explanation">
+            'truncate table' é um comando que serve para apagar todos os dados registrados em colunas de uma tabela.
+            Obs: não apaga as colunas, apenas os registros dela.
+        </div>
+    </div>
+        
+        
+    <div class="command-box">
+        <h2>Backup do Banco de Dados (Exportar):</h2>
+        <div class="code-box">
+             Acesse o menu "Server" no MySQL, depois clique em "Data Export".
+             Selecione os esquemas (bancos de dados) e as tabelas que deseja exportar.
+            
+             Selecione a opção de exportação:
+              - Dump Structure and Data: Exporta tanto a estrutura quanto os dados.
+              - Dump Data Only: Exporta apenas os dados.
+              - Dump Structure Only: Exporta apenas a estrutura, sem dados.
+            
+             Defina o tipo de exportação:
+              - Export to Dump Project Folder: Exporta o projeto completo.
+              - Export to Self-Contained File: Exporta em um único arquivo.
+            
+             Após a configuração, clique em Start Export.
+        </div>
+    </div>
+        
+    <div class="command-box">
+        <h2>Importação de Banco de Dados (Abrir):</h2>
+        <div class="code-box">
+             Acesse o menu "Server" e clique em "Data Import".
+             Escolha a opção Import from Dump Project Folder ou Import from Self-Contained File.
+             Selecione o arquivo ou pasta que contém o backup.
+             Clique em Start Import e forneça o usuário e a senha, se necessário.
+        </div>
+    </div>
+        
+    <div class="command-box">
+        <h2>Mostrar o Comando Usado para Criar uma Tabela:</h2>
+        <div class="code-box">
+            SHOW CREATE TABLE nome_da_tabela
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation23')">Explicar</button>
+        <div id="explanation23" class="explanation">
+            Mostra o comando digitado usado pelo desenvolvedor ao criar uma tabela.           
+        </div>
+    </div>
+        
+    <div class="command-box">
+        <h2>Selecionar Todos os Registros de uma Tabela:</h2>
+        <div class="code-box">
+            SELECT * FROM nome_da_tabela
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation24')">Explicar</button>
+        <div id="explanation24" class="explanation">
+            Vai mostrar todos os registros de uma tabela, o todos é representado pelo '*'.
+        </div>
+    </div>
+        
+    <div class="command-box">
+        <h2>Selecionar Registros Ordenados por Coluna:</h2>
+        <div class="code-box">
+            SELECT * FROM nome_da_tabela ORDER BY nome
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation25')">Explicar</button>
+        <div id="explanation25" class="explanation">
+            'ORDER BY' é um comando que serve para definir a ordem na qual uma tabela é exibida, no comando mostrado a tabela será exibida com base na coluna nome, ficara em ordem alfabética, se fosse uma coluna de número ficaria em ordem crescente.
+        </div>
+    </div>
+        
+    <div class="command-box">
+        <h2>Selecionar Registros em Ordem Crescente (Padrão):</h2>
+        <div class="code-box">
+            SELECT * FROM nome_da_tabela ORDER BY numero ASC
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation26')">Explicar</button>
+        <div id="explanation26" class="explanation">
+           Uso o 'order by' com a especificação da ordem em 'asc' que significa crescente, por padrão o 'order by' sempre será em ordem crescente, portanto é indiferente usar o asc. 
+        </div>
+    </div>
 
-
+    <div class="command-box">
+        <h2>Selecionar Registros em Ordem Decrescente:</h2>
+        <div class="code-box">
+            SELECT * FROM nome_da_tabela ORDER BY numero DESC
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation27')">Explicar</button>
+        <div id="explanation27" class="explanation">
+            Uso o 'order by' com a especificação da ordem em 'desc' que significa decrescente, pór padrão fica em ordem crescente, então se eu quiser que fique em ordem decrescente eu preciso especificar com o 'DESC'.
+        </div>
+    </div>
+    
+    <div class="command-box">
+        <h2>Selecionar Apenas Determinadas Colunas de uma Tabela:</h2>
+        <div class="code-box">
+            SELECT nome, carga, ano FROM nome_da_tabela
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation28')">Explicar</button>
+        <div id="explanation28" class="explanation">
+            Invés de selecionar todas colunas de uma tabela com o '*' eu posso passar especificando as colunas que eu quero, no caso desse código só vai exibiar a coluna 'nome', 'carga', 'ano'
+        </div>
+    </div>
+    
+    <div class="command-box">
+        <h2>Selecionar Registros com Ano Menor ou Igual a 2015:</h2>
+        <div class="code-box">
+            SELECT * FROM nome_da_tabela WHERE ano <= 2015
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation29')">Explicar</button>
+        <div id="explanation29" class="explanation">
+            Exibo todos os registros de uma tabela cujo o os registros da coluna 'ano' sejam menor ou igual a 2015.
+    </div>
+</div> 
+  
+    
+    <div class="command-box">
+        <h2>Selecionar Registros com Ano Maior que 2016 em Ordem Decrescente:</h2>
+        <div class="code-box">
+            select * from nome_da_tabela where ano > 2016 order by ano desc
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation30')">Explicar</button>
+        <div id="explanation30" class="explanation">
+            Exibo todos os registros de uma tabela cujo o os registros da coluna 'ano' sejam maior que 2016, a exibição será em ordem descrescente (ORDER BY ANO DESC).
+    </div>
+</div>     
+    
+    <div class="command-box">
+        <h2>Selecionar Registros com Ano Diferente de 2017:</h2>
+        <div class="code-box">
+            SELECT * FROM nome_da_tabela WHERE ano != 2017
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation31')">Explicar</button>
+        <div id="explanation31" class="explanation">
+            Exibo todos os registros de uma tabela cujo o os registros da coluna 'ano' sejam diferente de 2017.
+            Simbolo de diferente: !=
+    </div>
+</div>   
+    
+    <div class="command-box">
+        <h2>Selecionar Registros com Ano Entre 2014 e 2016:</h2>
+        <div class="code-box">
+            SELECT * FROM nome_da_tabela WHERE ano BETWEEN 2014 AND 2016
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation32')">Explicar</button>
+        <div id="explanation32" class="explanation">
+            Exibo todos os registros de uma tabela cujo o os registros da coluna 'ano' sejam entre 2014 e 2016.
+            - 'between' significa 'entre' e o 'and' significa 'e'.
+    </div>
+</div>    
+    
+    <div class="command-box">
+        <h2>Selecionar Registros com Ano de 2014 ou 2017:</h2>
+        <div class="code-box">
+            SELECT * FROM nome_da_tabela WHERE ano IN (2014, 2017);
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation33')">Explicar</button>
+        <div id="explanation33" class="explanation">
+            Exibo todos os registros de uma tabela cujo o os registros da coluna 'ano' sejam 2014 ou 2017, especifico isso com o IN (valor,valor).
+    </div>
+</div>    
+    
+    <div class="command-box">
+        <h2>Selecionar Registros com Ano 2014 e Carga 40:</h2>
+        <div class="code-box">
+            SELECT * FROM nome_da_tabela WHERE ano = 2014 AND carga = 40
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation34')">Explicar</button>
+        <div id="explanation34" class="explanation">
+            Exibo todos os registros de uma tabela cujo o os registros das colunas 'ano' e 'carga' tenham o valor de que o ano seja '2014' e a carga seja '40'.
+            Obs: como eu uso o 'AND' as duas condições tem que ser verdadeiras, o ano precisa ser 2014 e a carga também precisa ser 40.
+            Se eu quisesse que só fosse necessária uma condição ser verdadeira ou as duas serem, eu usaria 'OR' ao invés de 'AND'.
+    </div>
+</div>    
+    
+    <div class="command-box">
+        <h2>Selecionar Registros com Ano 2017 ou Carga 30:</h2>
+        <div class="code-box">
+            SELECT * FROM nome_da_tabela WHERE ano = 2017 OR carga = 30
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation35')">Explicar</button>
+        <div id="explanation35" class="explanation">
+            Exibo todos os registros de uma tabela cujo o os registros das colunas 'ano' e 'carga' tenham o valor de que o ano seja '2017' ou a carga seja '30'.
+    </div>
+</div>     
+    
+    <div class="command-box">
+        <h2>O que são WildCards?</h2>
+        <div class="code-box">
+            Wildcards (ou "caracteres curinga") são símbolos usados em consultas para representar padrões de correspondência em dados.
+            O operador LIKE é utilizado com esses wildcards para realizar buscas parciais em colunas de texto.
+        </div>
+    </div>  
+        
+    <div class="command-box">
+        <h2>Um dos Principais Wildcards é o Percentual (%):</h2>
+        <div class="code-box">
+            SELECT * FROM clientes WHERE nome LIKE 'Jo%'
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation36')">Explicar</button>
+        <div id="explanation36" class="explanation">
+            A '%'Representa zero ou mais caracteres em uma string.
+            Esse comando retorna todos os nomes que começam com "Jo", como "João", "Jose", "Jonas", etc.
+    </div>
+</div>    
+    
+    <div class="command-box">
+        <h2>Um dos Principais Wildcards é o Underline (_)</h2>
+        <div class="code-box">
+            SELECT * FROM clientes WHERE nome LIKE 'J_ão'
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation37')">Explicar</button>
+        <div id="explanation37" class="explanation">
+            o '_' Representa exatamente um único caractere em uma posição específica. 
+            Esse comando retorna todos os nomes que começam com "J", seguido de qualquer caractere, e terminam com "ão" (como "João", "Jão", etc).
+    </div>
+</div>    
+    
+    <div class="command-box">
+        <h2>Diferença entre os Wildcards:</h2>
+        <div class="code-box">
+              O '_' significa apenas um caractere.
+              A '%' pode representar zero, um ou vários caracteres.
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation38')">Explicar</button>
+        <div id="explanation38" class="explanation">
+            Esses wildcards tornam as buscas no banco de dados mais flexíveis, permitindo a pesquisa por padrões de dados em vez de valores exatos.
+    </div>
+</div>      
+    
+    <div class="command-box">
+        <h2>Forma ERRADA de filtrar um valor que comece com 'A'(sem wildcard):</h2>
+        <div class="code-box">
+            SELECT * FROM nome_da_tabela WHERE nome = 'A';
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation39')">Explicar</button>
+        <div id="explanation39" class="explanation">
+            Dessa forma eu vou apenas procurar por por um nome que seja 'A' e não o que comece com a letra 'A'.
+    </div>
+</div>        
+    
+    <div class="command-box">
+        <h2>Forma CERTA de filtrar um valor que comece com 'A'(com wildcard):</h2>
+        <div class="code-box">
+            SELECT * FROM nome_da_tabela WHERE nome LIKE 'a%'
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation40')">Explicar</button>
+        <div id="explanation40" class="explanation">
+            Com a implementação do 'LIKE 'a%'' eu condiciono o meu código a fazer a seleção cujo o valor da coluna nome COMECE com a letra 'a'.
+            'a%' significa que o valor começa com a letra 'a' e após o 'a' pode ter qualquer coisa escrita, o qualquer coisa escrita é representado pela '%'.
+            No caso o a busca pelo A é só um exemplo, poderia ser nada ou qualquer letra ou frase (nenhum caracter, qualquer caracter ou conjunto de caracter).
+    </div>
+</div>       
+    
+    <div class="command-box">
+        <h2>Filtrar por um valor que termine com a letra 'a':</h2>
+        <div class="code-box">
+            SELECT * FROM nome_da_tabela WHERE nome LIKE '%a'
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation41')">Explicar</button>
+        <div id="explanation41" class="explanation">
+            Com a implementação do 'LIKE '%a'' eu condiciono o meu código a fazer a seleção cujo o valor da coluna nome TERMINE com a letra 'a'.
+            '%a' significa que pelo final de qualquer coisa escrita ou nada escrito vai ter o 'a'.
+    </div>
+</div>    
+    
+    <div class="command-box">
+        <h2>Filtrar por um valor que contenha a letra 'a' em qualquer posição:</h2>
+        <div class="code-box">
+            SELECT * FROM nome_da_tabela WHERE nome LIKE '%a%'
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation42')">Explicar</button>
+        <div id="explanation42" class="explanation">
+            '%a%' significa que o ar pode estár cercado de qualquer caracter ou de nenhum caracter.
+        </div>
+    </div>     
+        
+    <div class="command-box">
+        <h2>Filtrar por um valor que não comece com a letra 'A':</h2>
+        <div class="code-box">
+            SELECT * FROM nome_da_tabela WHERE nome NOT LIKE 'a%'
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation43')">Explicar</button>
+        <div id="explanation43" class="explanation">
+            O 'NOT' aplicado dessa forma inverte o valor do 'LIKE 'a%''.
+    </div>
+</div>    
+    
+    <div class="command-box">
+        <h2>Filtrar por um valor que não termine com a letra 'a':</h2>
+        <div class="code-box">
+            SELECT * FROM nome_da_tabela WHERE nome NOT LIKE '%a'
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation44')">Explicar</button>
+        <div id="explanation45" class="explanation">
+            O 'NOT' aplicado dessa forma inverte o valor do 'LIKE '%a''.
+    </div>
+</div>     
+    
+    <div class="command-box">
+        <h2>Filtrar por um valor que não contenha a letra 'a':</h2>
+        <div class="code-box">
+            SELECT * FROM nome_da_tabela WHERE nome NOT LIKE '%a%'
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation46')">Explicar</button>
+        <div id="explanation46" class="explanation">
+            O 'NOT' aplicado dessa forma inverte o valor do 'LIKE '%a%''.
+    </div>
+</div>  
+    
+    <div class="command-box">
+        <h2>Buscar um valor que comece com 'al' e termine com 'os':</h2>
+        <div class="code-box">
+            SELECT * FROM nome_da_tabela WHERE nome LIKE 'al%os'
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation47')">Explicar</button>
+        <div id="explanation47" class="explanation">
+            No codigo mostrado o 'al%os' busca por um valor da coluna nome que comece com 'al' e tenha qualquer coisa(%) entre o 'os'.
+            Busca nomes que comecem com 'al' e terminam com 'os'.
+    </div>
+</div>      
+    
+    <div class="command-box">
+        <h2>Buscar um valor que comece com 'al', tenha qualquer coisa entre 'al' e 'os', e depois tenha algo ou nada após 'os':</h2>
+        <div class="code-box">
+            SELECT * FROM nome_da_tabela WHERE nome LIKE 'al%os%'
+        </div>
+    </div>  
+        
+    <div class="command-box">
+        <h2>Buscar um valor que tenha um único caractere após 'al' e termine com 'os':</h2>
+        <div class="code-box">
+            SELECT * FROM nome_da_tabela WHERE nome LIKE 'al%os_'
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation48')">Explicar</button>
+        <div id="explanation48" class="explanation">
+            Combinando a '%' com o '_', a '%' significa nenhum, um ou vários caracteres, já o '_' significa APENAS UM caracter.
+            Isso significa que eu busco por algo que comece com 'al' e termine com algum caracter após o 'os' no final.
+        </div>
+    </div>     
+        
+    <div class="command-box">
+        <h2>DISTINCT:</h2>
+        <div class="code-box">
+            SELECT DISTINCT ano FROM cursos
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation49')">Explicar</button>
+        <div id="explanation49" class="explanation">
+            Remove valores duplicados e retorna apenas valores únicos.
+            Esse comando retorna apenas os anos distintos da tabela de cursos.
+        </div>
+    </div>
+                
+    <div class="command-box">
+        <h2>GROUP BY:</h2>
+        <div class="code-box">
+            SELECT carga, COUNT(nome) FROM cursos GROUP BY carga ORDER BY carga
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation50')">Explicar</button>
+        <div id="explanation50" class="explanation">
+            Agrupa os resultados de uma consulta com base em uma ou mais colunas e frequentemente é usado com funções agregadas como COUNT(), SUM(), AVG(), etc.
+            Esse comando retorna as diferentes cargas horárias de cursos e quantos cursos existem para cada carga horária.
+            'COUNT(nome)' esse comando conta quantos registros na coluna nome tem.
+        </div>
+    </div>
+                
+    <div class="command-box">
+        <h2>Função HAVING</h2>
+        <div class="code-box">
+            SELECT ano, COUNT(*) FROM cursos GROUP BY ano HAVING COUNT(*) > 2
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation51')">Explicar</button>
+        <div id="explanation51" class="explanation">
+            A função HAVING é usada para filtrar os resultados após o agrupamento com GROUP BY.
+            Esse comando retorna os anos que aparecem mais de duas vezes.
+            o 'COUNT(*)' significa que ira contar todos os registros de todas as colunas.
+        </div>
+    </div>
+        
+    <div class="command-box">
+        <h2>Diferença entre WHERE e HAVING:</h2>
+        <div class="code-box">
+             WHERE: Filtra os registros antes do agrupamento.
+             HAVING: Filtra os registros após o agrupamento.
+        </div>
+    </div>
+        
+    <div class="command-box">
+        <h2>Exemplo combinando WHERE e HAVING:</h2>
+        <div class="code-box">
+            SELECT ano, COUNT(*) FROM cursos WHERE ano > 2012 GROUP BY ano HAVING COUNT(*) > 2
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation52')">Explicar</button>
+        <div id="explanation52" class="explanation">
+            Nesse exemplo, filtramos os anos maiores que 2012, agrupamos para mostrar apenas os anos que se repetem em mais de dois cursos.
+        </div>
+    </div>
+                
+    <div class="command-box">
+        <h2>Para adicionar uma chave estrangeira em uma tabela, use o comando:</h2>
+        <div class="code-box">
+            ALTER TABLE nome_da_tabela_que_recebe_fk ADD FOREIGN KEY (nome_da_coluna_que_vai_ser_fk) REFERENCES tabela_que_tem_a_fk (coluna_da_tabela_que_tem_a_fk)
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation53')">Explicar</button>
+        <div id="explanation53" class="explanation">
+            Altero uma tabela adicionando uma foreign key (chave estrangeira), passo no parametro a coluna da tabela que recebera a chave estrangeira e faço a ligação com o 'REFERENCES' assim ligando a tabela que tem a coluna que eu quero que seja a chave estrangeira. 
+        </div>
+    </div>
+                
+    <div class="command-box">
+        <h2>Adicionar um curso preferido para os alunos:</h2>
+        <div class="code-box">
+            ALTER TABLE alunos ADD COLUMN curso_preferido INT
+            ALTER TABLE alunos ADD FOREIGN KEY (curso_preferido) REFERENCES cursos(id_do_curso)
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation54')">Explicar</button>
+        <div id="explanation54" class="explanation">
+            Altero uma tabela chamada alunos e adiciono a coluna 'curso_preferido' do tipo int.
+            Altero a tabela alunos e adiciono a chave estrangeira que será 'curso_preferido' que recebera o valor de id_do_curso da tabela cursos
+        </div>
+    </div>
+                
+    <div class="command-box">
+        <h2>Atualizando a chave estrangeira:</h2>
+        <div class="code-box">
+            UPDATE alunos SET curso_preferido = 3 WHERE id = 5
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation55')">Explicar</button>
+        <div id="explanation55" class="explanation">
+            Atualizando a tabela alunos e setando o curso preferido equivalente ao id_do_curso 3 para o aluno equivalente ao id '5'.
+            Obs: 'curso_preferido' é uma chave estrangeira que referencia a coluna id_do_curso da tabela cursos.
+        </div>
+    </div>
+                    
+    <div class="command-box">
+        <h2>Usando JOIN para exibir dados relacionados:</h2>
+        <div class="code-box">
+            SELECT alunos.nome, alunos.curso_preferido, cursos.nome FROM alunos JOIN cursos ON cursos.id_do_curso = alunos.curso_preferido
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation56')">Explicar</button>
+        <div id="explanation56" class="explanation">
+            Usando o JOIN, combino as tabelas alunos e cursos para exibir o nome do aluno, o curso preferido e o nome do curso (Uso tanto dados da tabela alunos quanto da tabela cursos).
+            O 'ON' é usado para especificar a condição de junção, neste caso, onde o id_do_curso da tabela cursos é igual ao curso_preferido da tabela alunos. 
+        </div>
+    </div>
+                    
+    <div class="command-box">
+        <h2>Usando LEFT JOIN para incluir todos os alunos, mesmo os que não têm curso preferido:</h2>
+        <div class="code-box">
+            SELECT alunos.nome, alunos.curso_preferido, cursos.nome FROM alunos LEFT JOIN cursos ON cursos.id_do_curso = alunos.curso_preferido
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation57')">Explicar</button>
+        <div id="explanation57" class="explanation">
+            Usando o LEFT JOIN, combino as tabelas alunos e cursos para exibir o nome do aluno, o curso preferido e o nome do curso (Uso tanto dados da tabela alunos quanto da tabela cursos).
+            O 'LEFT JOIN' é usado para incluir todos os alunos, mesmo os que não têm curso preferido (aparecerão os dados da esquerda (LEFT), independente de existir os da direita).
+        </div>
+    </div>
+                    
+    <div class="command-box">
+        <h2>Por que usar LEFT JOIN e não RIGHT JOIN?</h2>
+        <div class="code-box">
+            O LEFT JOIN garante que todos os registros da tabela à esquerda (alunos) apareçam, mesmo que não tenham correspondência na tabela à direita (cursos). Já o RIGHT JOIN daria prioridade aos cursos, e poderia mostrar registros de cursos sem alunos.
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation8')">Explicar</button>
+    </div>
+                    
+    <div class="command-box">
+        <h2>Selecionando o valor Mínimo e o Máximo de um registro:</h2>
+        <div class="code-box">
+            SELECT MIN(carga_horaria) FROM cursos  -- Valor mínimo
+            SELECT MAX(carga_horaria) FROM cursos  -- Valor máximo
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation58')">Explicar</button>
+        <div id="explanation58" class="explanation">
+            Seleciono o mínimo e máximo da carga horária dos cursos.
+ 
+       </div>
+    </div>
+                    
+    <div class="command-box">
+        <h2>Contando a quantidade de registros:</h2>
+        <div class="code-box">
+            SELECT COUNT() FROM cursos
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation59')">Explicar</button>
+        <div id="explanation59" class="explanation">
+            Contagem total de registros na tabela cursos.
+        </div>
+    </div>
+                    
+    <div class="command-box">
+        <h2>Contando valores específicos:</h2>
+        <div class="code-box">
+            SELECT COUNT(nome) FROM alunos
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation60')">Explicar</button>
+        <div id="explanation60" class="explanation">
+            Contagem total de nomes na tabela alunos.
+        </div>
+    </div>
+                    
+    <div class="command-box">
+        <h2>Operador BETWEEN:</h2>
+        <div class="code-box">
+            SELECT nome, ano FROM cursos WHERE ano BETWEEN 2014 AND 2020
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation61')">Explicar</button>
+        <div id="explanation61" class="explanation">
+            O BETWEEN é usado para selecionar registros dentro de um intervalo de valores.
+        </div>
+    </div>
+                    
+    <div class="command-box">
+        <h2>Inserção com código:</h2>
+        <div class="code-box">
+            INSERT INTO cursos (idcurso, nome, descricao, carga, totalaulas, ano) VALUES (11, 'Lutador', 'Luta Muay Thai', 100, 10, 2019)
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation62')">Explicar</button>
+        <div id="explanation62" class="explanation">
+            Inserindo um novo curso na tabela cursos.
+        </div>
+    </div>
+                        
+    <div class="command-box">
+        <h2>Inserção prática:</h2>
+        <div class="code-box">
+            Após executar um comando como `SELECT  FROM cursos`, basta clicar nos campos vazios da tabela, preencher os valores e clicar em Apply.
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation63')">Explicar</button>
+        <div id="explanation63" class="explanation">
+            Inserindo um novo curso na tabela cursos.
+            Obs: essa ação simplificada serve para outras coisas além de inserção de valores, teste.
+        </div>
+    </div>
+                        
+    <div class="command-box">
+        <h2>Atualização com código:</h2>
+        <div class="code-box">
+            UPDATE cursos SET nome = 'PaOO' WHERE idcurso = 9
+        </div>
+        <button class="btn" onclick="toggleExplanation('explanation64')">Explicar</button>
+        <div id="explanation64" class="explanation">
+            Atualizando o nome do curso na tabela cursos.
+        </div>
+    </div>
+    
+    <div class="command-box">
+        <h2>Atualização prática:</h2>
+        <div class="code-box">
+            Clique diretamente no valor que deseja modificar, edite-o e depois clique em Apply.
+        </div>
+    </div>
+    
+    
 
 
     <div class="contact-box">
-        <h3>Entre em contato</h3>
-        <p>Se você tiver dúvidas ou sugestões, pode entrar em contato:</p>
-        <a href="alvarodudadahoradh@gmail.com">alvarodudadahoradh@gmail.com</a>
+        <h3>Me apoie no GitHub:</h3>
+        <a href="https://github.com/alvaroduda">github.com/alvaroduda</a>
     </div>
 
 <script src="/js/script.js"></script>

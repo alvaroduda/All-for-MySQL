@@ -1,0 +1,516 @@
+Os tipos primitivos de SQL
+
+Numéricos {
+Inteiros(TinyInt, SmallInt, Int)
+Reais(Decimal ou Numeric , Float, Double, Real)
+Lógicos(Bit, Boolean)
+}
+
+Data/Tempo {
+Data/Tempo(Data, DateTime, TimeStamp, Time, Year)
+}
+
+Literal {
+Caractere(Char, VarChar)
+Texto(TinyText, Text, MediumText, LongText)
+Binário(TinyBlob, Blob, MediumBlob, LongBlob)
+Coleção(Enum, Set)
+}
+
+Espacial{
+Espacial(Geometry, Point, Polygon, MultiPolygon)
+}
+
+Banco de Dados são conjuntos de Tabelas e Tabelas são conjuntos de Registros
+
+
+//Criação de uma data base
+
+create database cadastro;
+
+
+//criação de uma tabela dentro da data base
+
+create table pessoas(
+nome varchar(30),
+idade tinyint(3),
+sexo char(1),
+peso float,
+altura float,
+nacionalidade varchar(20)
+);
+
+
+
+//comando para aparecer os registros dados na tabela
+
+describe pessoas;
+
+
+
+//para apagar um banco de dados eu clico no simbolo do arquivo sql para criar uma nova tabela de sql file
+// depois eu digito o comando para apagar banco de dados
+
+drop database cadastro;
+
+
+
+create database cadastro
+
+//define o conjunto de caracteres padrão para o banco de dados como utf8
+//isso quer dizer que ele pode representar praticamente todos os idiomas do mundo, incluindo acentos, símbolos e caracteres especiais
+//isso ajuda o banco de dados a evitar erros de codificação independente do idioma.
+
+default character set utf8
+
+//isso ajuda o banco de dados a evitar erros de codificação independente do idioma
+//define uma collation (ordenação e comparação de strings) padrão para o banco de dados
+//utf8 é o conjunto de caracteres utf8
+//general especifica que a comparação e ordenação de texto serão feitas num geral, sem se importar com particularidades como acentuação e ordem alfabética especifica de algum idioma.
+//ci significa case-insensitive que é o mesmo que sem diferenciação entre maiuscula e minuscula, vão tratar todas como iguais.
+
+default collate utf8_general_ci;
+
+
+
+//comando para criar tabela
+
+create table pessoas (
+
+//cria uma coluna na tabela chamada id do tipo inteiro
+//e diz que não pode ser nulo e que tera incremento automatico, isso seria gerar um valor único para essa coluna sempre que uma nova linha é inserida na tabela
+
+id int not null auto_increment,
+
+//diz que nome sera do tipo varchar e que podera armazenar até 30 caracteres
+//o not null em seguida diz que o valor não pode ser nulo, ou seja, precisa ter um nome.
+
+nome varchar(30) not null,
+nascimento date,
+
+//se coloca o sexo com o tipo enum porque deixa valores fixos definidos, só podendo ser esses valores.
+
+sexo enum ('M','F'),
+
+//uso o tipo decimal para definir o peso dando a precisão (não tem como definir essa precisão nos outros tipos) de que serão no máximo 5 digitos e dois digitos após a virgula.
+
+peso decimal (5,2),
+
+//aqui eu digo que serão no máximo 3 digitos no total e que após a virgula ira ter dois digitos.
+
+altura decimal (3,2),
+
+//aqui eu digo que caso não seja informada a nacionalidade terá por padrão que é do Brasil.
+
+nacionalidade varchar (20) default 'Brasil',
+
+//aqui se define a chave primaria passando como valor o id criado acima
+//se coloca por último esse código para ficar mais intuitivo visualmente, mas a ordem não muda sua execução
+//com uma primary key, significa que cada registro dessa tabela tera um valor único para cada linha assim identificando de forma exclusiva cada registro da tabela.
+
+primary key (id)
+)
+
+//define o conjunto de caracteres padrão para o banco de dados como utf8
+//isso quer dizer que ele pode representar praticamente todos os idiomas do mundo, incluindo acentos, símbolos e caracteres especiais.
+//mesma coisa que o comando default character set utf8 (que é o mais recomendado)
+//esse só está como desmonstração de outra forma, mas o comando mais adequado é default character set utf8
+
+default charset = utf8;
+
+//esse comando significa insira em pessoas tal coisa, no caso ele vai inserir aos campos dados entre () os valores abaixo
+
+insert into pessoas
+(nome,nascimento,sexo,peso,altura)
+values
+('Álvaro','2002-12-15','M','87.50','1.83');
+
+obs: está sem o id e sem a nacionalidade porque o id gera automaticamente e a nacionalidade por padrão já é Brasil caso nenhuma seja definida,
+eu poderia colocar esses campos e por o valor default mas no caso ai eu não coloquei, seria: (id,nome,nascimento,sexo,peso,altura,nacionalidade) e os valores seriam (default,'Álvaro','2002-15-12','M','87.50','1.83',default)
+
+//esse comando significa, selecione tudo de pessoas, ele vai mostrar todos os valores nos campos da tabela pessoa
+
+select * from pessoas;
+
+obs: se eu for inserir valores aos campose eu colocar nos () for na ordem que estiver os componentes na tabela, eu não preciso passar no parametro os seus nomes, eu posso inserir logo os valores.
+
+//para inserir vários valores de uma vez, só dividir por ","
+insert into pessoas values
+(default,'Magda','1976-09-21','F','55.00','1.60',default),
+(default,'Adauto','1972-04-27','M','93.00','1.83',default),
+(default,'Rozeane','1972-06-27','F','57.00','1.65',default);
+
+//comando para alterar a tabela pessoas e adicionar uma coluna na tabela de profissao, do tipo varchar
+obs:a palavra column é opcional
+
+alter table pessoas
+add column profissao varchar (10);
+
+//comando para remover da tabela a coluna adicionada acima
+
+alter table pessoas
+drop column profissao;
+
+//comando para adicionar profissao após a column nome
+
+alter table pessoas add column profissao varchar (10) after nome;
+
+//adicionando uma column codigo na tabela pessoas na posição first (primeira posição)
+
+alter table pessoas add codigo int first;
+
+//comando para modificar a column profissao, colocando como parametro 20 no varchar substituindo os 10 que estava antes como parametro
+obs: só da para alterar o tipo primitivo, não da pra alterar o nome da coluna
+
+alter table pessoas modify column profissao varchar(20);
+
+//dizendo que o campo profissão não pode ser nulo e definindo um valor default como Desempregado,
+//se eu não definisse valor default ele iria entrar em conflito com o fato de que ao adicionar uma nova column todos os registros da tabela já adicionando anteriormente ficariam com o valor null nesse novo campo ou column
+
+alter table pessoas modify column profissao varchar (20) not null default 'Desempregado';
+
+//comando para renomear a column, no caso eu mudei o nome de profissao para prof, primeiro se coloca o nome antigo e depois o novo com suas respectivas configurações
+obs: ele meio que recriara a column e entáo ele perdera as suas configurações anteriores
+
+alter table pessoas change column profissao prof varchar (20);
+
+//redefinindo as configurações perdidas de not null e default com o valor de Desempregado
+
+alter table pessoas modify prof varchar(20) not null default 'Desempregado';
+
+//comando para renomear a tabela, esse comando diz: altere a tabela pessoas, renomeie para infos
+
+alter table pessoas rename to infos;
+
+//crie uma tabela chamada curso se não existir uma tabela chamada curso
+obs: se precisa desse comando if not exists porque se existir uma tabela com o mesmo nome da que eu quero criar eu vou perder tudo da tabela que já existia
+
+create table if not exists cursos(
+
+//criando um nome do tipo varcha, não pode não conter um valor e o valor dado não pode ser repetido, ele será unico (unique)
+
+nome varchar (30) not null unique,
+descricao text,
+
+//criação da coluna chamada carga do tipo inteiro e que não pode ter um valor de número negativo (unsigned)
+
+carga int unsigned,
+totalaulas int,
+ano year default '2024'
+)
+default character set utf8
+
+//vamos dizer que esqueci de colocar a chave primaria, então vou adicionar uma column para isso na posição primeira na tabela cursos
+
+alter table cursos
+add column idcurso int first
+add primary key (idcurso);
+
+//criando uma tabela de exemplo
+
+create table if not exists exemplo (
+nome varchar (10),
+idade int
+)
+default character set utf8;
+
+//apagar a tabela exemplo caso exista
+drop table if exists exemplo;
+
+
+Comandos para atualizar algo em uma linha/tupla/registro:
+
+UPDATE E DELETE
+
+Exemplo de update:
+
+update nome_da_tabela set nome_da_coluna = 'tal coisa' where id = '1'
+
+Exemplo de delete:
+
+delete from nome_da_tabela where id = '1'
+
+
+Como apagar todas linhas/registros/tuplas de uma tabela:
+
+truncate table nome_da_tabela
+
+truncate nome_da_tabela
+
+
+Como fazer backup do Banco de Dados (Exportar):
+
+Ir no menu do MySQL e clicar em Server, dentro do menu clicar na opção Data Export, vai abrir uma janela que vai ter como selecionar seus esquemas (Banco de Dados) e depois de selecionar se clicar sobre o esquema se mostra a opção de se selecionar os objetos (Tabelas) dentro desse esquema.
+
+O backup do banco de dados se chama de Dump.
+
+O banco de dados se armazena em algum servidor, no caso do uso do Wammp ele cria meio que um servidor interno na sua própria maquina porém você não tem acesso direto e por isso precisa fazer esse processo para fazer um backup.
+
+Clicando na lista (Combo box) que está marcado Dump Structure and Data você pode escolher entre salvar tudo (Estrutura e dados) com a opção Dump Structure and Data, você pode escolher salva apenas os dados com Dump Data Only, você pode escolher salvar só a estrutura sem dados nenhum com Dump Structure Only
+
+Abaixo na opção "Objects to Export" tem algumas opções que se podem fazer caso tenha um Banco de Dados mais avançado.
+
+Mais abaixo em "Export Options", se selecionar Export to Dump Project Folder vai ser para exportar o projeto inteiro (folder inteiro), e se selecionar Export to Self-Contained File vai exportar um arquivo único.
+
+Na opção abaixo escrito "Include Create Schema" tem a opção de marcar, caso não marque isso dentro do backup (Dump) não vai vir a criação do banco de dados e ai vai ter que escrever o comando de criar o banco de dados manualmente para assim criar o Dump.
+
+Após tudo isso clique em Start Export, após isso vai ser pedido a senha do usuário, no caso se estiver usando outros servidores tem que saber qual o usuário e senha MySQL, mas no caso do Wamp eu defini o user como root e a senha vazia.
+
+
+Como abrir um Banco de Dados (Importar):
+
+Ir no menu do MySQL e clicar em Server, dentro do menu clicar na opção Data Import, vai abrir uma janela que vai ter as opções "Import from Dump Project Folder" e "Import from Self-Contained File", caso eu queira abrir um projeto completo eu clico em "Import from Dump Project Folder", caso eu queria abrir um arquivo em especifico eu clico em "Import from Self-Contained File", após escolher uma das opções se clica no botão com os 3 pontinhos e acha a pasta ou arquivo.
+
+Após isso só clicar em Start import, vai pedir o usuário e senha do servidor e após isso se inicia a importação.
+
+
+
+Comando para ver os comandos digitados para tal ação, exemplo:
+comando para ver os comandos dados para criar uma tabela show create table nome_da_tabela
+
+
+Comando para selecionar registros de uma tabela:
+select * from nome_da_tabela
+
+Comando para selecionar registros de uma tabela em uma determinada ordem, no exemplo eu botei nome, isso faria ficar em ordem com base em uma possivel coluna nome:
+select * from nome_da_tabela ORDER BY nome
+
+Comando para selecionar registros de uma tabela em uma determinada ordem, de forma crescente (forma default, nem precisa especificar):
+select * from nome_da_tabela ORDER BY numero ASC //isso faria a exibição da tabela ser de acordo com uma coluna chamada numero, no caso do primeiro numero até o maior
+
+Comando para selecionar registros de uma tabela em uma determinada ordem, de forma decrescente:
+select * from nome_da_tabela ORDER BY numero DESC //isso faria a exibição da tabela ser de acordo com uma coluna chamada numero, no caso do maior (último) número até o menor
+
+Comando para selecionar registros de apenas determinadas colunas de uma tabela:
+
+select nome,carga,ano from nome_da_tabela //isso faria a exibição de uma tabela mas com limitação a mostrar apenas os registros das colunas chamadas nome,carga e ano, diferentemente de usar o * que exibe todos os registros de todas colunas de uma tabela
+
+
+Quando se usa o select a tabela que é exibida com suas colunas e registros se chama de Result Set.
+
+
+Uma query significa fazer uma consulta e manipulação de dados (basicamente tudo que é comando de DML), como por exemplo solicitar a informação de uma tabela (como por exemplo usar o select), coluna ou qualquer solicitação, outro exemplo seria solicitar a inserção de dados em uma tabela (como por exemplo o uso do insert into), e por assim vai.
+
+
+Comando para selecionar registros de uma tabela caso o ano seja menor ou igual a 2015
+select * from nome_da_tabela where ano <= 2015
+
+Comando para selecionar registros de uma tabela caso o ano seja maior que 2016 em ordem da coluna ano e e forma decrescente
+select * from nome_da_tabela where ano > 2016 order by ano desc
+
+Comando para selecionar registros de uma tabela caso o ano NÃO seja 2017
+select * from nome_da_tabela where ano != 2017 //esse comando vai exibir todos os anos menos o 2017
+
+Comando para selecionar registros de uma tabela caso os registros da coluna ano estejam entre 2014 e 2016 (between significa entre)
+select * from nome_da_tabela where ano between 2014 and 2016
+
+Comando para selecionar registros de uma tabela caso os registros da coluna ano sejam 2014 e 2017, se usa o in para especificar valores, diferente do between que é entre valores
+select * from nome_da_tabela where ano in (2014,2017)
+
+Comando para selecionar registros de uma tabela caso os registros da coluna ano seja 2014 e a coluna carga seja 40
+select * from nome_da_tabela where ano = 2014 and carga = 40
+
+Comando para selecionar registros de uma tabela caso os registros da coluna ano seja 2017 ou o registro da coluna carga seja 30, exibindo um mesmo que não tenha o outro, ou um ou outro (or)
+select * from nome_da_tabela where ano = 2017 or carga = 30
+
+
+Wildcards (ou "caracteres curinga") são símbolos usados em consultas para representar padrões de correspondência em dados.
+Ex: LIKE, que permite realizar buscas parciais em colunas de texto.
+
+Os dois wildcards mais comuns são:
+
+Percentual (%): Representa ZERO OU MAIS caracteres em uma string.
+Exemplo: SELECT * FROM clientes WHERE nome LIKE 'Jo%' irá encontrar todos os nomes que começam com "Jo", como "João", "Jose", "Jonas", etc.
+
+Underline (_): Representa exatamente APENAS UM único caractere em uma posição específica.
+Exemplo: SELECT * FROM clientes WHERE nome LIKE 'J_ão' vai encontrar todos os nomes que têm "J", seguido por qualquer caractere, e terminam com "ão" (como "João", "Jão", etc.).
+
+Diferença dos dois: o _ significa apenas um caracter, já a % significa nenhum, um ou vários caracteres
+
+Esses wildcards tornam as buscas no banco de dados mais flexíveis, permitindo que você busque por padrões de dados em vez de valores exatos.
+
+Exemplos de como filtrar uma busca por algo que quer achar (no caso a letra 'a'), USO DO LIKE:
+
+obs: no MYSQL (algumas outras linguagens não) ele busca até os 'a' com acento, ex: 'á'
+obs: a letra 'a' é só um exemplo, o LIKE e o NOT LIKE com % ou _ é muito usado em busca de nomes, exemplo %silva%, da pra buscar qualquer coisa escrita, e não apenas uma letra
+Forma errada de tanta achar uma coluna que COMECE com a letra 'A'
+select * from nome_da_tabela where nome = 'A'
+
+Forma correta de tentar achar uma coluna que COMECE com a letra 'A' (o resultado é o mesmo, seja escrito em caixa alta ou não)
+o % quer dizer seguido de qualquer coisa, por exemplo 'A%' é o mesmo que dizer para buscar o que comece com 'A' com qualquer coisa que qualquer coisa seria representada pela %
+% é o mesmo que nenhum ou vários caracteres
+select * from nome_da_tabela where nome like 'a%' //like nesse contexto seria traduzido a palavra 'parecido'
+
+Comando para tentar achar uma coluna que ACABE com a letra 'a'
+Apenas repeti o código de cima que busca os nomes que começarem com 'a' inverti a ordem da % e do 'a'
+select * from nome_da_tabela where nome like '%a'
+
+Comando para tentar achar uma coluna que tenha a letra 'a' em qualquer posição
+Apenas vou colocar a % atrás e na frente da letra que eu quero buscar
+select * from nome_da_tabela where nome like '%a%' 
+
+Exemplos de como filtrar uma busca por algo que não quer achar (no caso a exclusão da letra 'a'), USO DO NOT LIKE:
+
+obs: mesmos conceitos do uso apenas do LIKE porém a seleção é inversa com o NOT na frente do LIKE (NOT LIKE)
+
+Comando para eu tentar achar uma coluna que NÃO COMECE com a letra 'a'
+select * from nome_da_tabela where nome not like 'a%'
+
+Comando para eu tentar achar uma coluna que NÃO ACABE com a letra 'a'
+select * from nome_da_tabela where nome not like '%a'
+
+Comando para eu tentar achar uma coluna que NÃO TENHA a letra 'a'
+select * from nome_da_tabela where nome not like '%a%'
+
+
+Como selecionar um começo e fim:
+como a % significa qualquer coisa, eu to selecionando algo que comece com 'al' e que tenha qualquer coisa no intervalo até o fim com o 'os' 
+select * from nome_da_tabela where nome like 'al%OS' // escrito em maiúsculo ou minúsculo não faz diferença
+
+obs: para ter o valor inverso (exclusão de algo na seleção) é só usar o NOT LIKE ao invés de apenas LIKE
+
+
+Como selecionar um começo e entre o fim:
+como a % significa qualquer coisa, eu to selecionando algo que comece com 'al' e que tenha qualquer coisa no intervalo até o 'os' e após o 'os' qualquer coisa
+select * from nome_da_tabela where nome like 'al%OS%' // apenas adicionei outro símbolo de % no final
+
+se eu quisesse selecionar apenas um caracter eu usaria o '_'
+select * from nome_da_tabela where nome like 'al%OS_' // o _ significa um caracter, já a % significa nenhum, um ou vários caracteres
+
+obs: posso usar quantas % eu quiser e onde eu quiser para especificar minha seleção
+
+
+O Distinct é uma palavra-chave de consulta que garante que os resultados de uma consulta não tenham valores duplicados
+ao ser usado ele filtra os registros dublicados de uma tabela e retorna apenas os valores únicos.
+
+Exemplo:
+aqui eu seleciono todos os valores de ano (coluna de uma tabela), como eu usei o distinct os anos não serão repetidos
+mesmo que tenham vários registros em um mesmo ano, ele só ira mostrar os anos diferentes que existem, sem repeti-los
+select distinct ano from nome_da_tabela
+
+Comando para eu fazer a mesma ação de distinguir apenas os anos difentes (sem repeti-los) e exibir em ordem decrescente os anos
+select distinct ano from cursos order by ano desc
+
+Comando para eu fazer a mesma ação de distinguir apenas os anos difentes (sem repeti-los) e exibir em ordem decrescente os anos
+select distinct ano from cursos order by ano asc
+
+GROUP BY é usado para agrupar (juntar valores, não deixando se repetir valores iguais) os resultados de uma consulta em conjunto de registros.
+
+Exemplo:
+exibe na tela os valores de uma coluna, sem os repetir
+select nome_da_coluna from nome_da_tabela group by nome_da_coluna
+
+obs: qual a diferença do DISTINCT para o GROUP BY então? 
+O DISTINCT é usado para remover duplicatas de resultados. Quando você quer que sua consulta retorne apenas valores únicos (sem repetições) nas colunas selecionadas.
+O GROUP BY é utilizado para agrupar linhas com valores iguais em uma ou mais colunas e, frequentemente, é usado junto com funções de agregação, como COUNT(), SUM(), AVG(), etc.
+Exemplo:
+Nesse comando eu peço o retorno das cargas horarios de um curso e mandei agrupar (group by) as cargas, isso seria remover duplicatas de valores registrados, e mandei ordenar as cargas (order by)
+se fosse só isso seria o mesmo que o distinct, porém eu adicionei outra seleção, que foi a seleção da função count() e nela eu passo como parametro a coluna nome, para quando for exibir tudo
+aparecer as cargas e horarios com os primeiros comandos de (group by carga e order by carga) e além disso também mostrar em quantos cursos (nome, seria o nome do curso) essa carga está presente
+por exemplo, se tiver 10 cursos com a carga horaria de 45 iria aparecer a carga e a quantidade em quantos cursos esta carga está presente.
+select carga, count(nome) from cursos group by carga order by carga
+
+Outro exemplo:
+seleciono a coluna ano da tabela cursos para ser exibida e em conjunto com o ano eu seleciono a função de contagem que engloba todos os registros da tabelac curso
+e agrupo o ano que foi selecionado e ordeno ele em ordem crescente (do menor para o maior), assim vai aparecer o resultado de quantas vezes tal ano pareceu nos registros gerais, em ordem crescente
+select ano, count(*) from cursos group by ano order by ano asc
+
+Como usar o HAVING?
+Ele é usado em conjunto com o GROUP BY para filtrar os resultados após a agrupação (group by).
+Exemplo:
+Seleciono para exibição o ano e conto quantas vezes ele aparece nos registros da tabela curso, agrupo o a coluna ano mas só as que aparecem mais de uma vez, para saber a quantidade de aparece eu usei a função count() para contar
+select ano, count(*) from cursos group by ano having count(*) > 2 
+
+Qual a diferença do HAVING para o WHERE? 
+Ele funciona de forma similar ao WHERE, mas enquanto o WHERE filtra (da uma condição para algo) as linhas antes de um agrupamento não obrigatorio, o HAVING filtra os resultados após o agrupamento dos dados
+é possível combina-los, Exemplo:
+Seleciono para exibição o ano e conto quantas vezes ele aparece nos registros da tabela curso, mas só seleciona todas essas colunas e ações desde que os anos sejam maior que 2012
+em seguida agrupa todos os anos que aparecem em mais de dois registros gerais(*), então é isso tudo que será exibido, o programa verificara todas essas ordens e condições, para selecionar estas colunas.
+select ano, count(*) from cursos where ano > 2012 group by ano having count(*) > 2 
+
+
+Como adicionar uma chave estrangeira (FK):
+alter table nome_da_tabela_que_recebe_fk add foreign key (nome_da_coluna_que_vai_ser_fk) references tabela_que_tem_a_fk (coluna_da_tabela_que_tem_a_fk)
+Exemplo (Adicionando um curso preferido de uma tabela cursos para cada aluno de uma tabela de alunos):
+alter table alunos add column curso_preferido int
+alter table alunos add foreign key (curso_preferido) references cursos (id_do_curso)
+Explicação do exemplo: Isso serve para ao um aluno escolher um curso, ele ser um curso que existe na tabela de cursos, assim evita o aluno de escolher um curso que inexistente, no caso é um int porque a FK é um int, já que é o id do curso, exemplo curso número 1 é o de HTML, curso 2 é o de CSS e etc, assim um aluno escolhe um curso pela identificação dele.
+
+Como manipular uma chave estrangeira com base no exemplo acima:
+Setando na tabela gafanhotos na coluna de cursos preferidos o curso de id 3 referente da tabela cursos 
+update gafanhotos set cursopreferido = '3' where id = '5'
+
+Como ver o curso que está relacionado ao id, com base no exemplo acima:
+O JOIN (ou pode ser escrito inner join, é a mesma coisa) está sendo usado para combinar informações de duas tabelas, e assim permitindo esses códigos: alunos.nome vai retornar o nome dos alunos, alunos.curso_preferido vai retornar o curso preferido de cada aluno, cursos.nome vai retornar o nome do curso, obtido da tabela de cursos.
+e o ON cursos.id_do_curso = alunos.curso_preferido diz que a chave id_do_curso da tabela cursos deve ser igual ao curso_preferido da tabela alunos, já que os dois possuem os mesmos valores, já que o curso_preferido é com base no id dos cursos.
+select alunos.nome, alunos.curso_preferido, cursos.nome from nome_da_tabela_que_recebe_a_fk join nome_da_tabela_dona_da_fk on cursos.id_do_curso = alunos.curso_preferido
+
+Caso eu queria ver todos os alunos e seus cursos preferidos (com os nomes dos cursos), até os que não tem cursos preferidos, eu uso esse comando(left outer join ou só left join):
+select alunos.nome, alunos.curso_preferido, cursos.nome from nome_da_tabela_que_recebe_a_fk left join nome_da_tabela_dona_da_fk on cursos.id_do_curso = alunos.curso_preferido
+
+Por que não posso  usar right join?
+Porque iria aparecer como principal os cursos que estão na direita, e se um curso não for preferido por um aluno, ele apareceria mas o registro do aluno não teria, então não faz sentido
+Já no left join ele aparece sempre um aluno e seu curso preferido, caso ele não tenha curso preferido aparece da mesma forma.
+
+Como usar mais de uma chave estrangeira (FK) em uma única tabela?
+Só criar mais de um atributo para ser a FK e a referenciar com a PK da tabela desejada.
+
+Exemplo:
+Vamos dizer que queremos criar uma tabela que seja intermedio entre a tabela cursos e a tabela alunos, essa tabela vai ser a tabela para registrar a data que um aluno começou a assistir um curso.
+create table aluno_assiste_curso (id int not null auto_increment, data date, id_aluno int, id_curso int, primary key(id), foreign key(id_aluno) references alunos(id), foreign key(id_curso) references cursos(id)) default charset = utf8mb3
+Inserindo os valores, estou passando o id do aluno que está assistindo o id do curso passado, caso o aluno que é o id 3 da tabela alunos começou a assistir o curso que é de id 6 da tabela cursos no dia 25/02/2025
+insert into aluno_assiste_curso values (default, '2025-02-25', '3', '6')
+
+
+Como achar o maior e o menor valor de um registro em uma coluna de uma tabela:
+
+Para achar o valor máximo (maior valor):
+select max(nome_da_coluna) from nome_da_tabela
+
+Para achar o valor mínimo (menor valor):
+select min(nome_da_coluna) from nome_da_tabela
+
+obs: posso adicionar combinações para melhor especificações na busca, como o select nome, min(carga_horaria) from cursos where ano = '2016' //desde que seja do ano 2016, vai retornar a menor carga horaria de um curso da tabela cursos, junto com o nome dele
+
+
+Como somar valores:
+ele vai somar todos os valores presentes em todos os registros de uma determinada coluna de uma tabela
+select sum(nome_da_coluna) from nome_da_tabela
+
+Como tirar a média de valores:
+ele vai tirar a média dos valores presentes em todos os registros de uma determinada coluna de uma tabela
+select avg(nome_da_coluna) from nome_da_tabela //AVG() vem da palavra "average" que é média, em inglês
+
+Como contar quantos valores registrados em uma coluna de uma tabela:
+muito usado para situações que precisam saber quantas pessoas foram registradas em um sistema, algo assim, já que conta todas as linhas de registros de determinada coluna
+select count(nome_da_coluna) from nome_da_tabela
+
+
+Como achar valores de registros entre (BETWEEN) tais valores:
+SELECT NOME, ano FROM nome_da_tabela WHERE ano BETWEEN 2014 AND 2020
+
+Comando que procura  na tabela cursos os registros da coluna nome que comecem com a letra A, além disso procura os registros da coluna carga que tenham valores entre 10 e 30
+select * from cursos where nome like 'A%' and carga between 10 and 30
+
+Comando para retornar uma lista com o nome e nacionalidade de todos os homens que têm Silva no nome, não nasceram no Brasil e pesam menos de 100 1  kg
+SELECT nome, nacionalidade FROM tabela_de_pessoas WHERE nome LIKE '%Silva%' AND nacionalidade != 'Brasil' AND peso < 100;
+
+Como criar registros em colunas de uma tabela de forma manual (código puro):
+INSERT INTO `cadastro`.`cursos` (`idcurso`, `nome`, `descrição`, `carga`, `totalaulas`, `ano`) VALUES ('11', 'LUTADOR', 'LUTA MUAY THAI', '100', '10', 2019);
+
+Como criar registros em colunas de uma tabela de forma prática:
+Ir diretamente nos últimos dados vazios das colunas (após execução do comando 'select * from', ou outra especificação de busca) e clicar duas vezes sobre o valor vazio e escreve-los
+após escrever dar um enter  e clicar no 'Apply' no canto inferior direito
+
+
+Como atualizar coluna de uma tabela:
+
+Forma manual (código puro):
+estou mandando atualizar o valor da coluna nome de uma tabela e setar o valor como 'PaOO' caso o uma coluna chamada idcurso contenha o valor '9'
+update nome_da_tabela set nome = 'PaOO' where idcurso = '9'
+
+Forma prática:
+Ir diretamente no dado da coluna específica (após execução do comando 'select * from', ou outra especificação de busca) e clicar duas vezes sobre o valor da coluna e renomea-lo
+após renomear dar um enter  e clicar no 'Apply' no canto inferior direito
+
+
